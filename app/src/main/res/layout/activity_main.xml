@@ -22,7 +22,7 @@
         android:id="@+id/ID_texto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Ingrese texto"
@@ -35,23 +35,24 @@
         android:id="@+id/IDbutton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="16dp"
         android:onClick="Criptar"
         android:text="Encriptar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.207"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCargarImg" />
 
     <TextView
         android:id="@+id/IDtextView"
-        android:layout_width="251dp"
-        android:layout_height="103dp"
+        android:layout_width="349dp"
+        android:layout_height="199dp"
         android:text=" "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/IDbutton1"
-        app:layout_constraintVertical_bias="0.718" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageId"
@@ -71,5 +72,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageId" />
+
+    <Button
+        android:id="@+id/IDbutton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:onClick="CriptarIMG"
+        android:text="criptar img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.431"
+        app:layout_constraintStart_toEndOf="@+id/IDbutton1"
+        app:layout_constraintTop_toBottomOf="@+id/btnCargarImg" />
+
+    <Button
+        android:id="@+id/IDbutton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="readFile"
+        android:text="Ver datos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/IDtextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
