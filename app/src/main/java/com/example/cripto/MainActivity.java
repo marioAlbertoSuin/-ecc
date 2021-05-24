@@ -32,7 +32,7 @@ public class MainActivity<Public> extends AppCompatActivity {
     private EditText texto;
     private TextView resultadoRrip;
     ImageView imagen;
-    private static final String FILE_NAME = "texto.txt";
+    private static final String FILE_NAME = "texto.csv";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,11 +83,13 @@ public class MainActivity<Public> extends AppCompatActivity {
         resultadoRrip=findViewById(R.id.IDtextView);
         String data = texto.getText().toString();
         String cadena = cambio(data);
+        String resultado = stringFromJNI(cadena);
+        String []datos = resultado.split(" ");
+        resultadoRrip.setText("\n Texto encriptado:\n"+datos[0]+"\n Texto en bytes: \n"+datos[1]+"\n Clicks en ram: \n"+datos[2]+"\n Segundos: \n"+datos[3]);
 
-        resultadoRrip.setText(stringFromJNI(cadena));
         long tfinal = System.currentTimeMillis();
         long tDiferencia = tfinal - tinicio;
-        saveFile(String.valueOf(tDiferencia+"\t"+data.length()));
+        saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2]+","+datos[3])+","+String.valueOf(tDiferencia));
     }
 
 
@@ -95,10 +97,15 @@ public class MainActivity<Public> extends AppCompatActivity {
         long tinicio = System.currentTimeMillis() ;
         resultadoRrip=findViewById(R.id.IDtextView);
         String image = cambio(imagen.getImageMatrix().toString());
-        resultadoRrip.setText(stringFromJNI(image));
+        String resultado = stringFromJNI(image);
+        String []datos = resultado.split(" ");
+        resultadoRrip.setText("\n Imagen encriptado:\n"+datos[0]+"\n Imagen en bytes: \n"+datos[1]+"\n Clicks en ram: \n"+datos[2]+"\n Segundos: \n"+datos[3]);
+
+
+
         long tfinal = System.currentTimeMillis();
         long tDiferencia = tfinal - tinicio;
-        saveFile(String.valueOf(tDiferencia+"\t"+imagen.getImageMatrix().toString().length()));
+        saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2]+","+datos[3])+","+String.valueOf(tDiferencia));
 
     }
 
@@ -115,7 +122,7 @@ public class MainActivity<Public> extends AppCompatActivity {
 
     private void saveFile(String tiempo){
        // String textoASalvar = etFile.getText().toString();
-        String datos = leer()+"\n"+tiempo;
+        String datos = leer()+tiempo;
         FileOutputStream fileOutputStream = null;
 
         try {
@@ -130,33 +137,6 @@ public class MainActivity<Public> extends AppCompatActivity {
                     fileOutputStream.close();
                 }catch (Exception e){
                     e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public void readFile(View vista){
-        resultadoRrip=findViewById(R.id.IDtextView);
-
-        FileInputStream fileInputStream = null;
-        try{
-            fileInputStream = openFileInput(FILE_NAME);
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String lineaTexto;
-            StringBuilder stringBuilder = new StringBuilder();
-            while((lineaTexto = bufferedReader.readLine())!=null){
-                stringBuilder.append(lineaTexto).append("\n");
-            }
-            resultadoRrip.setText(stringBuilder);
-        }catch (Exception e){
-
-        }finally {
-            if(fileInputStream !=null){
-                try {
-                    fileInputStream.close();
-                }catch (Exception e){
-
                 }
             }
         }
@@ -187,6 +167,13 @@ public class MainActivity<Public> extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void  CargarGraficas(View view){
+
+        Intent acty2 =new Intent(this,graficas.class);
+        startActivity(acty2);
+
     }
 
 

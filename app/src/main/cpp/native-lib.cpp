@@ -3,11 +3,15 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <android/log.h>
-
-
 #include <iostream>
 #include <string>
 #include <cmath>
+
+#include <stdio.h>
+#include <time.h>
+#include <math.h>
+
+
 #define  LOG_TAG    "your-log-tag"
 
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
@@ -291,6 +295,8 @@ std::string ConvertJString(JNIEnv *pEnv, jstring pJstring);
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_example_cripto_MainActivity_stringFromJNI(JNIEnv* env, jobject, jstring cadena) {
     //std::string cad = ConvertJString(env,cadena);
+    clock_t t;
+    t = clock();
     char buf [128];
 
     const char *mensaje = (*env).GetStringUTFChars(cadena,0);
@@ -302,10 +308,10 @@ Java_com_example_cripto_MainActivity_stringFromJNI(JNIEnv* env, jobject, jstring
     //scanf("%12s",&m);
     // const char *m=mensaje;
     // A 64 bit key
-    string key= m;
+    string key= "1010101010111011000010010001100000100111001101101100110011011101";
    // LOGD(" el pepe %s",m);
     // A block of plain text of 64 bits
-    pt= "1010101111001101111001101010101111001101000100110010010100110110";
+    pt= m;
     // Calling the function to generate 16 keys
     generate_keys(key);
     cout<<"Plain text: "<<pt<<endl;
@@ -313,8 +319,10 @@ Java_com_example_cripto_MainActivity_stringFromJNI(JNIEnv* env, jobject, jstring
     string ct= DES();
     cout<<"Ciphertext: "<<ct<<endl;
 
-
-    std::string hello = "Cypher:\n "+ct+"\n byte: \n"+=pt;
+    t = clock() - t;
+    std::string click = std::to_string(t);
+    std::string tiempo = std::to_string(((float)t)/CLOCKS_PER_SEC);
+    std::string hello = ct+" "+=pt+" "+click+" "+tiempo;
 
 
     return env->NewStringUTF(hello.c_str());
