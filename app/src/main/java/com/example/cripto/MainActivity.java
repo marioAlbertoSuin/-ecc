@@ -29,7 +29,7 @@ public class MainActivity<Public> extends AppCompatActivity {
         System.loadLibrary("native-lib");
     }
     private static volatile Instrumentation globalInstrumentation;
-    private EditText texto;
+    private EditText texto,clave;
     private TextView resultadoRrip;
     ImageView imagen;
     private static final String FILE_NAME = "texto.csv";
@@ -40,9 +40,9 @@ public class MainActivity<Public> extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Example of a call to a native method
-        TextView tv = findViewById(R.id.sample_text);
+       // TextView tv = findViewById(R.id.sample_text);
        // tv.setText(stringFromJNI());
-        imagen = (ImageView)findViewById(R.id.imageId);
+        //imagen = (ImageView)findViewById(R.id.imageId);
 
 
     }
@@ -78,18 +78,26 @@ public class MainActivity<Public> extends AppCompatActivity {
     }
 
     public void Criptar(View Vista){
+
         long tinicio = System.currentTimeMillis() ;
         texto=findViewById(R.id.ID_texto);
+        clave=findViewById(R.id.IDclave);
         resultadoRrip=findViewById(R.id.IDtextView);
-        String data = texto.getText().toString();
-        String cadena = cambio(data);
-        String resultado = stringFromJNI(cadena);
-        String []datos = resultado.split(" ");
-        resultadoRrip.setText("\n Texto encriptado:\n"+datos[0]+"\n Texto en bytes: \n"+datos[1]+"\n Clicks en ram: \n"+datos[2]+"\n Segundos: \n"+datos[3]);
 
-        long tfinal = System.currentTimeMillis();
-        long tDiferencia = tfinal - tinicio;
-        saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2]+","+datos[3])+","+String.valueOf(tDiferencia));
+
+        String data = texto.getText().toString();
+        String psw = clave.getText().toString();
+
+        //String cadena = cambio(data);
+        //String cla = cambio(psw);
+
+        String resultado = stringFromJNI(data ,psw);
+       // String []datos = resultado.split("  ");
+       // resultadoRrip.setText("\n Texto encriptado:\n"+datos[2]+"\n Clicks en ram: \n"+datos[0]+"\n Segundos: \n"+datos[1]);
+        resultadoRrip.setText(resultado.toString());
+       // long tfinal = System.currentTimeMillis();
+        //long tDiferencia = tfinal - tinicio;
+        //saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2]+","+datos[3])+","+String.valueOf(tDiferencia));
     }
 
 
@@ -97,15 +105,15 @@ public class MainActivity<Public> extends AppCompatActivity {
         long tinicio = System.currentTimeMillis() ;
         resultadoRrip=findViewById(R.id.IDtextView);
         String image = cambio(imagen.getImageMatrix().toString());
-        String resultado = stringFromJNI(image);
-        String []datos = resultado.split(" ");
-        resultadoRrip.setText("\n Imagen encriptado:\n"+datos[0]+"\n Imagen en bytes: \n"+datos[1]+"\n Clicks en ram: \n"+datos[2]+"\n Segundos: \n"+datos[3]);
+       // String resultado = stringFromJNI(image);
+       // String []datos = resultado.split(" ");
+        //resultadoRrip.setText("\n Imagen encriptado:\n"+datos[0]+"\n Imagen en bytes: \n"+datos[1]+"\n Clicks en ram: \n"+datos[2]+"\n Segundos: \n"+datos[3]);
 
 
 
-        long tfinal = System.currentTimeMillis();
-        long tDiferencia = tfinal - tinicio;
-        saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2]+","+datos[3])+","+String.valueOf(tDiferencia));
+      //  long tfinal = System.currentTimeMillis();
+      //  long tDiferencia = tfinal - tinicio;
+      //  saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2]+","+datos[3])+","+String.valueOf(tDiferencia));
 
     }
 
@@ -183,5 +191,5 @@ public class MainActivity<Public> extends AppCompatActivity {
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
-    public native String stringFromJNI(String cadena);
+    public native String stringFromJNI(String cadena,String clave);
 }
