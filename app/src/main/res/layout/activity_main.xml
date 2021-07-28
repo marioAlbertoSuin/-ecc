@@ -22,24 +22,24 @@
         android:id="@+id/IDbutton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
         android:onClick="Criptar"
         android:text="Encriptar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/IDclave" />
 
     <TextView
         android:id="@+id/IDtextView"
-        android:layout_width="382dp"
-        android:layout_height="378dp"
+        android:layout_width="340dp"
+        android:layout_height="155dp"
         android:text=" "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.413"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/IDbutton1"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/imagenid"
         tools:visibility="visible" />
 
     <Button
@@ -67,5 +67,40 @@
         app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ID_texto" />
+
+    <ImageView
+        android:id="@+id/imagenid"
+        android:layout_width="123dp"
+        android:layout_height="106dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/IDbutton1"
+        app:srcCompat="@drawable/temporal" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="97dp"
+        android:layout_height="41dp"
+        android:onClick="imagen"
+        android:text="choose img"
+        app:layout_constraintBottom_toTopOf="@+id/IDtextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagenid"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:onClick="CriptarIMG"
+        android:text="encriptar img"
+        app:layout_constraintEnd_toStartOf="@+id/IDbutton1"
+        app:layout_constraintHorizontal_bias="0.318"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/IDclave" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

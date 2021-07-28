@@ -357,6 +357,7 @@ Java_com_example_cripto_MainActivity_stringFromJNI(JNIEnv* env, jobject,jstring 
     point Pt = P[t];
     point P2 = cal(pa, k, a, p);
     point Pm = add(Pt, P2, a, p);
+    string xx;
     cout << endl << "El texto cifrado a enviar:" << endl;
     cout << "kG=(" << C1.x << "," << C1.y << "),pt+kPa=(" << Pm.x << "," << Pm.y << ")";
     int C[100];
@@ -367,6 +368,7 @@ Java_com_example_cripto_MainActivity_stringFromJNI(JNIEnv* env, jobject,jstring 
         C [i] = int (SE [i]) * Pt.x + Pt.y; // Seleccione el texto sin formato a cifrar
         cout<< C[i] <<" ";
         val= reinterpret_cast<char *>(C[i]);
+        xx=xx+std::to_string(C[i]);
     }
     cout << "}" << endl;
 
@@ -374,7 +376,7 @@ Java_com_example_cripto_MainActivity_stringFromJNI(JNIEnv* env, jobject,jstring 
     // Descifrar
     point temp, temp1;
     int m;
-    string xx;
+
     temp = cal(C1, ka, a, p);
     temp.y = 0 - temp.y;
     temp1 = add (Pm, temp, a, p); // Resuelve para Pt
@@ -384,7 +386,7 @@ Java_com_example_cripto_MainActivity_stringFromJNI(JNIEnv* env, jobject,jstring 
         m = (C[i] - temp1.y) / temp1.x;
         printf ("% c", char (m)); // texto cifrado de salida
 
-        //xx=xx+char(C[i]);
+
 
     }
     printf("\n");
@@ -393,9 +395,9 @@ Java_com_example_cripto_MainActivity_stringFromJNI(JNIEnv* env, jobject,jstring 
 
     ti = clock() - ti;
     std::string click = std::to_string(ti);
-    std::string crypt = ",".join(map(str,C));
+    std::string crypt = xx;
     std::string tiempo = std::to_string(((float)ti)/CLOCKS_PER_SEC);
-    std::string hello = "ramm en click"+click+"\n tiempo en segundos "+tiempo+"\n cyptado "+;
+    std::string hello = click+"-"+tiempo+"-"+crypt;
 
 
     return env->NewStringUTF(hello.c_str());

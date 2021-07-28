@@ -5,15 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.util.Log;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 
 
@@ -32,6 +39,7 @@ public class MainActivity<Public> extends AppCompatActivity {
     private EditText texto,clave;
     private TextView resultadoRrip;
     ImageView imagen;
+    Bitmap bm;
     private static final String FILE_NAME = "texto.csv";
 
     @Override
@@ -42,7 +50,7 @@ public class MainActivity<Public> extends AppCompatActivity {
         // Example of a call to a native method
        // TextView tv = findViewById(R.id.sample_text);
        // tv.setText(stringFromJNI());
-        //imagen = (ImageView)findViewById(R.id.imageId);
+        imagen = (ImageView)findViewById(R.id.imagenid);
 
 
     }
@@ -68,7 +76,7 @@ public class MainActivity<Public> extends AppCompatActivity {
             Uri path= data.getData();
 
             imagen.setImageURI(path);
-
+           // bm = BitmapFactory.decodeFile(data.getData().toString());
         }else{
 
             texto=findViewById(R.id.ID_texto);
@@ -92,39 +100,39 @@ public class MainActivity<Public> extends AppCompatActivity {
         //String cla = cambio(psw);
 
         String resultado = stringFromJNI(data ,psw);
-       // String []datos = resultado.split("  ");
-       // resultadoRrip.setText("\n Texto encriptado:\n"+datos[2]+"\n Clicks en ram: \n"+datos[0]+"\n Segundos: \n"+datos[1]);
-        resultadoRrip.setText(resultado.toString());
-       // long tfinal = System.currentTimeMillis();
-        //long tDiferencia = tfinal - tinicio;
-        //saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2]+","+datos[3])+","+String.valueOf(tDiferencia));
+        String []datos = resultado.split("-");
+        resultadoRrip.setText("\n Texto encriptado:\n"+datos[2]+"\n Clicks en ram: \n"+datos[0]+"\n Segundos: \n"+datos[1]);
+
+        long tfinal = System.currentTimeMillis();
+        long tDiferencia = tfinal - tinicio;
+        saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2])+","+String.valueOf(tDiferencia));
     }
+
 
 
     public void CriptarIMG(View Vista){
         long tinicio = System.currentTimeMillis() ;
         resultadoRrip=findViewById(R.id.IDtextView);
-        String image = cambio(imagen.getImageMatrix().toString());
-       // String resultado = stringFromJNI(image);
-       // String []datos = resultado.split(" ");
-        //resultadoRrip.setText("\n Imagen encriptado:\n"+datos[0]+"\n Imagen en bytes: \n"+datos[1]+"\n Clicks en ram: \n"+datos[2]+"\n Segundos: \n"+datos[3]);
+        clave=findViewById(R.id.IDclave);
+        String psw = clave.getText().toString();
+
+        Bitmap bitmap = ((BitmapDrawable) imagen.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] imagenbyte = baos.toByteArray();
+
+        String encodeimg = Base64.encodeToString(imagenbyte,Base64.DEFAULT);
+        String resultado = stringFromJNI(encodeimg.toString(),psw);
+        String []datos = resultado.split("-");
+        resultadoRrip.setText("\n Texto encriptado:\n"+datos[2]+"\n Clicks en ram: \n"+datos[0]+"\n Segundos: \n"+datos[1]);
 
 
-
-      //  long tfinal = System.currentTimeMillis();
-      //  long tDiferencia = tfinal - tinicio;
-      //  saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2]+","+datos[3])+","+String.valueOf(tDiferencia));
+        long tfinal = System.currentTimeMillis();
+        long tDiferencia = tfinal - tinicio;
+        saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2])+","+String.valueOf(tDiferencia));
 
     }
 
-
-    public String cambio(String texto){
-        byte []byteArray = new byte[texto.length()];
-        for(int i=0;i<byteArray.length;i++){
-            byteArray[i] = (byte) texto.charAt(i);
-        }
-        return String.valueOf(byteArray);
-    }
 
 
 

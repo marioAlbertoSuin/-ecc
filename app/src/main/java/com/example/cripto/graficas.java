@@ -24,9 +24,6 @@ public class graficas extends AppCompatActivity {
     private static final String FILE_NAME = "texto.csv";
 
     LineChartView lineChartView;
-   // String[] axisData = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept",
-   //         "Oct", "Nov", "Dec"};
-   // int[] yAxisData = {50, 20, 15, 30, 20, 60, 15, 40, 45, 10, 90, 18};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +38,8 @@ public class graficas extends AppCompatActivity {
 
         for(int i=0;i<datos.size();i++){
             for (int j=0;j<datos.get(i).size();j++){
-                axisData[i]=datos.get(i).get(2);
-                yAxisData[i]=datos.get(i).get(4);
+                axisData[i]=datos.get(i).get(0);
+                yAxisData[i]=datos.get(i).get(3);
             }
         }
 
