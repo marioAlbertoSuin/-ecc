@@ -6,40 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/ID_texto"
-        android:layout_width="372dp"
-        android:layout_height="72dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Ingrese texto sin formato"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.564"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/IDbutton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginTop="36dp"
         android:onClick="Criptar"
-        android:text="Encriptar"
+        android:text="Encriptar file"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/IDclave" />
+        app:layout_constraintHorizontal_bias="0.477"
+        app:layout_constraintStart_toEndOf="@+id/button3"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/IDtextView"
-        android:layout_width="340dp"
-        android:layout_height="155dp"
+        android:layout_width="361dp"
+        android:layout_height="311dp"
+        android:layout_marginBottom="60dp"
         android:text=" "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagenid"
         tools:visibility="visible" />
 
     <Button
@@ -59,48 +47,36 @@
         android:id="@+id/IDclave"
         android:layout_width="370dp"
         android:layout_height="60dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Ingrese clave"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintHorizontal_bias="0.39"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ID_texto" />
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
 
     <ImageView
         android:id="@+id/imagenid"
-        android:layout_width="123dp"
-        android:layout_height="106dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="254dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/IDbutton1"
+        app:layout_constraintTop_toBottomOf="@+id/IDclave"
         app:srcCompat="@drawable/temporal" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="97dp"
-        android:layout_height="41dp"
-        android:onClick="imagen"
-        android:text="choose img"
-        app:layout_constraintBottom_toTopOf="@+id/IDtextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagenid"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/button2"
+        android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:onClick="CriptarIMG"
-        android:text="encriptar img"
-        app:layout_constraintEnd_toStartOf="@+id/IDbutton1"
-        app:layout_constraintHorizontal_bias="0.318"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="36dp"
+        android:onClick="archivo"
+        android:text="choose file"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/IDclave" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

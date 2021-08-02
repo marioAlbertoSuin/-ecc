@@ -3,7 +3,9 @@ package com.example.cripto;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.Instrumentation;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,12 +23,15 @@ import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class MainActivity<Public> extends AppCompatActivity {
@@ -40,6 +45,8 @@ public class MainActivity<Public> extends AppCompatActivity {
     private TextView resultadoRrip;
     ImageView imagen;
     Bitmap bm;
+    String base64;
+
     private static final String FILE_NAME = "texto.csv";
 
     @Override
@@ -68,6 +75,18 @@ public class MainActivity<Public> extends AppCompatActivity {
 
     }
 
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -75,68 +94,87 @@ public class MainActivity<Public> extends AppCompatActivity {
         if(resultCode == RESULT_OK){
             Uri path= data.getData();
 
+            try {
+                InputStream iStream =   getContentResolver().openInputStream(path);
+                byte[] inputData = getBytes(iStream);
+                base64 = Base64.encodeToString(inputData,Base64.DEFAULT);
+
+                AlertDialog.Builder myBuild = new AlertDialog.Builder(this);
+                myBuild.setMessage("Archivo Cargado");
+                myBuild.setTitle("Aviso");
+                myBuild.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog dialog = myBuild.create();
+                dialog.show();
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
             imagen.setImageURI(path);
+
            // bm = BitmapFactory.decodeFile(data.getData().toString());
         }else{
 
-            texto=findViewById(R.id.ID_texto);
+
             resultadoRrip=findViewById(R.id.IDtextView);
-            resultadoRrip.setText("no funciona");
+            resultadoRrip.setText("Seleccione un archvio");
         }
     }
+
+    public void archivo(View view){cargarArchivo();}
+
+
+    public void cargarArchivo(){
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(intent.createChooser(intent, null),10);
+
+
+    }
+
+
+
 
     public void Criptar(View Vista){
 
         long tinicio = System.currentTimeMillis() ;
-        texto=findViewById(R.id.ID_texto);
+        //texto=findViewById(R.id.ID_texto);
         clave=findViewById(R.id.IDclave);
         resultadoRrip=findViewById(R.id.IDtextView);
+        //
 
 
-        String data = texto.getText().toString();
+        //
+
+//        String data = texto.getText().toString();
         String psw = clave.getText().toString();
 
         //String cadena = cambio(data);
         //String cla = cambio(psw);
 
-        String resultado = stringFromJNI(data ,psw);
+        String resultado = stringFromJNI(base64 ,psw);
         String []datos = resultado.split("-");
         resultadoRrip.setText("\n Texto encriptado:\n"+datos[2]+"\n Clicks en ram: \n"+datos[0]+"\n Segundos: \n"+datos[1]);
 
         long tfinal = System.currentTimeMillis();
         long tDiferencia = tfinal - tinicio;
-        saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2])+","+String.valueOf(tDiferencia));
+        saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2])+","+String.valueOf(tDiferencia)+","+base64.length()+","+psw.length());
     }
 
 
 
-    public void CriptarIMG(View Vista){
-        long tinicio = System.currentTimeMillis() ;
-        resultadoRrip=findViewById(R.id.IDtextView);
-        clave=findViewById(R.id.IDclave);
-        String psw = clave.getText().toString();
-
-        Bitmap bitmap = ((BitmapDrawable) imagen.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-        byte[] imagenbyte = baos.toByteArray();
-
-        String encodeimg = Base64.encodeToString(imagenbyte,Base64.DEFAULT);
-        String resultado = stringFromJNI(encodeimg.toString(),psw);
-        String []datos = resultado.split("-");
-        resultadoRrip.setText("\n Texto encriptado:\n"+datos[2]+"\n Clicks en ram: \n"+datos[0]+"\n Segundos: \n"+datos[1]);
-
-
-        long tfinal = System.currentTimeMillis();
-        long tDiferencia = tfinal - tinicio;
-        saveFile(String.valueOf(datos[0]+","+datos[1]+","+datos[2])+","+String.valueOf(tDiferencia));
-
-    }
-
-
-
-
-    private void saveFile(String tiempo){
+      private void saveFile(String tiempo){
        // String textoASalvar = etFile.getText().toString();
         String datos = leer()+tiempo;
         FileOutputStream fileOutputStream = null;

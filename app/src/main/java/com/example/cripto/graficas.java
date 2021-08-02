@@ -39,7 +39,7 @@ public class graficas extends AppCompatActivity {
         for(int i=0;i<datos.size();i++){
             for (int j=0;j<datos.get(i).size();j++){
                 axisData[i]=datos.get(i).get(0);
-                yAxisData[i]=datos.get(i).get(3);
+                yAxisData[i]=datos.get(i).get(5);
             }
         }
 
